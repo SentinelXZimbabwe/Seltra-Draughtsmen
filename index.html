@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seltra Draughtsmen - Architectural & Structural Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-wc+MqQ8XCOxklY+KyQef+fH0c71M7R3px70VurFlXvSgYJHq7KqD0A/Ns06kyr7lFfCztuPo52nsY8OAhhF6BA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Montserrat',sans-serif;}
+body{background:#f5f6fa;color:#333;line-height:1.6;scroll-behavior:smooth;}
+.fade-in{opacity:0;transform:translateY(20px);animation:fadeIn 1s forwards;}
+.fade-in-delay{opacity:0;transform:translateY(20px);animation:fadeIn 1s forwards;animation-delay:0.3s;}
+.fade-in-delay2{opacity:0;transform:translateY(20px);animation:fadeIn 1s forwards;animation-delay:0.6s;}
+.pulse{animation:pulse 2s infinite;}
+@keyframes fadeIn{to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+
+header{background:linear-gradient(135deg,#0d6efd,#6610f2);color:#fff;text-align:center;padding:80px 20px;position:relative;overflow:hidden;}
+header img{max-width:150px;margin-bottom:20px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.3);}
+header h1{font-size:2.8em;margin-bottom:10px;letter-spacing:1px;}
+header p{font-size:1.2em;opacity:0.9;}
+
+nav{display:flex;justify-content:center;gap:25px;margin-top:-40px;flex-wrap:wrap;}
+nav a{text-decoration:none;color:#fff;font-weight:600;padding:10px 15px;border-radius:8px;transition:0.3s;}
+nav a:hover{background:rgba(255,255,255,0.2);}
+
+section{padding:80px 20px;max-width:1200px;margin:auto;}
+section h2{font-size:2.5em;text-align:center;margin-bottom:40px;color:#0d6efd;display:flex;justify-content:center;align-items:center;gap:10px;}
+section p{text-align:center;max-width:700px;margin:0 auto;font-size:1.1em;}
+
+.services-container{display:flex;flex-wrap:wrap;justify-content:center;gap:30px;}
+.service{background:#fff;padding:30px;width:280px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.1);transition:0.3s;text-align:center;cursor:pointer;}
+.service i{font-size:2.5em;margin-bottom:15px;color:#0d6efd;}
+.service h3{margin-bottom:15px;display:flex;justify-content:center;align-items:center;gap:8px;}
+.service p{font-size:1em;opacity:0.9;}
+.service:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 15px 25px rgba(0,0,0,0.2);}
+
+.projects-container{display:flex;flex-wrap:wrap;justify-content:center;gap:30px;}
+.project{position:relative;width:300px;border-radius:15px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;}
+.project img{width:100%;display:block;transition:transform 0.3s;}
+.project:hover img{transform:scale(1.05);}
+.project .overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(13,110,253,0.8);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;opacity:0;transition:0.3s;padding:20px;font-weight:600;border-radius:15px;}
+.project:hover .overlay{opacity:1;}
+
+.contact-info{margin-bottom:20px;font-size:1.1em;display:flex;flex-direction:column;gap:15px;align-items:center;}
+.contact-info a{color:#0d6efd;text-decoration:none;font-weight:600;transition:0.3s;}
+.contact-info a:hover{text-decoration:underline;}
+.contact-info i{margin-right:8px;}
+
+footer{background:#0d6efd;color:#fff;text-align:center;padding:20px;}
+
+.whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25d366;color:#fff;padding:15px 18px;border-radius:50px;font-size:1.5em;z-index:1000;cursor:pointer;transition:0.3s;}
+.whatsapp-btn:hover{transform:scale(1.1);}
+
+/* Modal */
+.modal{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
+.modal-content{background:#fff;margin:10% auto;padding:30px;border-radius:15px;width:90%;max-width:500px;position:relative;box-shadow:0 10px 20px rgba(0,0,0,0.3);}
+.close{color:#333;position:absolute;top:15px;right:20px;font-size:28px;font-weight:bold;cursor:pointer;}
+.modal-content input, .modal-content textarea{width:100%;padding:12px 10px;margin:10px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
+.modal-content button{background:#0d6efd;color:#fff;border:none;padding:12px 20px;border-radius:8px;font-size:1em;cursor:pointer;transition:0.3s;}
+.modal-content button:hover{background:#6610f2;}
+
+@media(max-width:768px){.services-container,.projects-container{flex-direction:column;align-items:center;}}
+</style>
+<script>
+// Modal logic
+function openOrderModal(){document.getElementById('orderModal').style.display='block';}
+function closeOrderModal(){document.getElementById('orderModal').style.display='none';}
+function openProjectModal(title, description){
+  document.getElementById('projectTitle').innerText=title;
+  document.getElementById('projectDescription').innerText=description;
+  document.getElementById('projectModal').style.display='block';
+}
+function closeProjectModal(){document.getElementById('projectModal').style.display='none';}
+window.onclick=function(event){
+  if(event.target==document.getElementById('orderModal')) closeOrderModal();
+  if(event.target==document.getElementById('projectModal')) closeProjectModal();
+}
+
+// Submit order to WhatsApp
+function submitOrder(){
+  const name=document.getElementById('orderName').value.trim();
+  const company=document.getElementById('orderCompany').value.trim();
+  const phone=document.getElementById('orderPhone').value.trim();
+  const whatsapp=document.getElementById('orderWhatsapp').value.trim();
+  const email=document.getElementById('orderEmail').value.trim();
+  const address=document.getElementById('orderAddress').value.trim();
+  const details=document.getElementById('orderDetails').value.trim();
+  if(!name||!company||!phone||!details){alert("Please fill all required fields!"); return;}
+  const message=encodeURIComponent(`Hello Seltra Draughtsmen, I would like to place an order.\n👤 Name: ${name}\n🏢 Company: ${company}\n📞 Phone: ${phone}\n📲 WhatsApp: ${whatsapp}\n✉️ Email: ${email}\n🏠 Address: ${address}\n📝 Order Details: ${details}`);
+  window.open(`https://wa.me/263716703141?text=${message}`,'_blank');
+  closeOrderModal();
+}
+</script>
+</head>
+<body>
+
+<!-- Header -->
+<header class="fade-in">
+<img src="logo-images/seltra-logo.jpg" alt="Seltra Draughtsmen Logo" class="pulse">
+<h1>Seltra Draughtsmen</h1>
+<p>Architect & Specialist in Architectural Drawings 🏠📐</p>
+</header>
+
+<!-- Navigation -->
+<nav class="fade-in-delay">
+<a href="#about"><i class="fas fa-info-circle"></i> About</a>
+<a href="#services"><i class="fas fa-cogs"></i> Services</a>
+<a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a>
+<a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+</nav>
+
+<!-- About -->
+<section id="about" class="fade-in-delay2">
+<h2><i class="fas fa-building"></i> About Seltra Draughtsmen</h2>
+<p>Seltra Draughtsmen specializes in precise and innovative architectural drawings. With a focus on detail and design excellence, every project is crafted to meet the unique needs of clients, ensuring clarity and creativity in every blueprint. ✏️🏗️</p>
+</section>
+
+<!-- Services -->
+<section id="services" class="fade-in">
+<h2><i class="fas fa-tools"></i> Our Services</h2>
+<div class="services-container">
+<div class="service fade-in-delay" onclick="alert('Architectural Drawings ✏️📐\nDetailed and accurate drawings for residential, commercial, and industrial projects.')">
+<i class="fas fa-pencil-ruler"></i>
+<h3>Architectural Drawings 🏠</h3>
+<p>Detailed and accurate drawings for residential, commercial, and industrial projects.</p>
+</div>
+<div class="service fade-in-delay2" onclick="alert('Consultation 💡\nProfessional advice on design, materials, and structural planning.')">
+<i class="fas fa-lightbulb"></i>
+<h3>Consultation 💡</h3>
+<p>Professional advice on design, materials, and structural planning.</p>
+</div>
+<div class="service fade-in-delay" onclick="alert('Blueprint Drafting 📄\nHigh-quality blueprints ready for contractors, builders, and developers.')">
+<i class="fas fa-file-alt"></i>
+<h3>Blueprint Drafting 📄</h3>
+<p>High-quality blueprints ready for contractors, builders, and developers.</p>
+</div>
+</div>
+</section>
+
+<!-- Projects -->
+<section id="projects" class="fade-in-delay2">
+<h2><i class="fas fa-project-diagram"></i> Projects & Marketing Material</h2>
+<div class="projects-container">
+<div class="project" onclick="openProjectModal('Concept House 🏡','This is a concept drawing of a house in architectural design form. ✏️📐')">
+<img src="logo-images/img1.jpg" alt="Concept House">
+<div class="overlay">Concept House 🏡 Click for info</div>
+</div>
+<div class="project" onclick="openProjectModal('Upcoming Structural Services 🏗️','Upcoming structural engineering services in development. 🔧📊')">
+<img src="logo-images/img2.jpg" alt="Structural Services">
+<div class="overlay">Upcoming Structural Services 🏗️ Click for info</div>
+</div>
+</div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="fade-in">
+<h2><i class="fas fa-envelope"></i> Contact Seltra Draughtsmen</h2>
+<div class="contact-info">
+<p><i class="fas fa-envelope"></i>Email: <a href="mailto:seltradraughtsmenco@gmail.com">seltradraughtsmenco@gmail.com</a></p>
+<p><i class="fas fa-phone"></i>WhatsApp/Call: <a href="tel:+263716703141">+263 71 670 3141</a></p>
+<p><i class="fab fa-facebook"></i> Facebook: <a href="https://www.facebook.com/share/16vjyKX88k/" target="_blank">Visit</a></p>
+<p><i class="fab fa-instagram"></i> Instagram: <a href="https://www.instagram.com/seltradraughtsmen?utm_source=qr&igsh=MTRsbmk3bWQzamowNg==" target="_blank">Visit</a></p>
+</div>
+<p>Website project by Panashe Chagwiza 👨‍💻</p>
+</section>
+
+<!-- WhatsApp Order Button -->
+<div class="whatsapp-btn pulse" onclick="openOrderModal()">Click Here to Order <i class="fab fa-whatsapp"></i></div>
+
+<!-- Order Modal -->
+<div id="orderModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeOrderModal()">&times;</span>
+<h2>Place Your Order 📝</h2>
+<input type="text" id="orderName" placeholder="Full Name 👤" required>
+<input type="text" id="orderCompany" placeholder
