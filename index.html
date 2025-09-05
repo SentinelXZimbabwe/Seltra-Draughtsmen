@@ -6,15 +6,23 @@
 <title>Seltra Draughtsmen - Architectural & Structural Design</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-wc+MqQ8XCOxklY+KyQef+fH0c71M7R3px70VurFlXvSgYJHq7KqD0A/Ns06kyr7lFfCztuPo52nsY8OAhhF6BA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Montserrat',sans-serif;}
 body{background:#f5f6fa;color:#333;line-height:1.6;scroll-behavior:smooth;}
+
+/* Animations */
 .fade-in{opacity:0;transform:translateY(20px);animation:fadeIn 1s forwards;}
 .fade-in-delay{opacity:0;transform:translateY(20px);animation:fadeIn 1s forwards;animation-delay:0.3s;}
 .fade-in-delay2{opacity:0;transform:translateY(20px);animation:fadeIn 1s forwards;animation-delay:0.6s;}
+.slide-in-left{opacity:0;transform:translateX(-100px);animation:slideInLeft 1s forwards;}
+.slide-in-right{opacity:0;transform:translateX(100px);animation:slideInRight 1s forwards;}
 .pulse{animation:pulse 2s infinite;}
+
 @keyframes fadeIn{to{opacity:1;transform:translateY(0);}}
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes slideInLeft{to{opacity:1;transform:translateX(0);}}
+@keyframes slideInRight{to{opacity:1;transform:translateX(0);}}
 
 header{background:linear-gradient(135deg,#0d6efd,#6610f2);color:#fff;text-align:center;padding:80px 20px;position:relative;overflow:hidden;}
 header img{max-width:150px;margin-bottom:20px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.3);}
@@ -37,11 +45,11 @@ section p{text-align:center;max-width:700px;margin:0 auto;font-size:1.1em;}
 .service:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 15px 25px rgba(0,0,0,0.2);}
 
 .projects-container{display:flex;flex-wrap:wrap;justify-content:center;gap:30px;}
-.project{position:relative;width:300px;border-radius:15px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;}
-.project img{width:100%;display:block;transition:transform 0.3s;}
+.project{position:relative;width:300px;border-radius:15px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;text-align:center;}
+.project img{width:100%;display:block;transition:transform 0.3s;border-radius:15px;}
 .project:hover img{transform:scale(1.05);}
-.project .overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(13,110,253,0.8);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;opacity:0;transition:0.3s;padding:20px;font-weight:600;border-radius:15px;}
-.project:hover .overlay{opacity:1;}
+.project button{margin-top:10px;width:90%;background:#0d6efd;color:#fff;border:none;padding:10px 15px;border-radius:8px;font-weight:600;cursor:pointer;transition:0.3s;}
+.project button:hover{background:#6610f2;}
 
 .contact-info{margin-bottom:20px;font-size:1.1em;display:flex;flex-direction:column;gap:15px;align-items:center;}
 .contact-info a{color:#0d6efd;text-decoration:none;font-weight:600;transition:0.3s;}
@@ -55,27 +63,38 @@ footer{background:#0d6efd;color:#fff;text-align:center;padding:20px;}
 
 /* Modal */
 .modal{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
-.modal-content{background:#fff;margin:10% auto;padding:30px;border-radius:15px;width:90%;max-width:500px;position:relative;box-shadow:0 10px 20px rgba(0,0,0,0.3);}
+.modal-content{background:#fff;margin:10% auto;padding:30px;border-radius:15px;width:90%;max-width:600px;position:relative;box-shadow:0 10px 20px rgba(0,0,0,0.3);}
 .close{color:#333;position:absolute;top:15px;right:20px;font-size:28px;font-weight:bold;cursor:pointer;}
 .modal-content input, .modal-content textarea{width:100%;padding:12px 10px;margin:10px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
 .modal-content button{background:#0d6efd;color:#fff;border:none;padding:12px 20px;border-radius:8px;font-size:1em;cursor:pointer;transition:0.3s;}
 .modal-content button:hover{background:#6610f2;}
+.modal-content img{width:100%;border-radius:15px;}
 
-@media(max-width:768px){.services-container,.projects-container{flex-direction:column;align-items:center;}}
+/* Mobile */
+@media(max-width:768px){
+  .services-container,.projects-container{flex-direction:column;align-items:center;}
+  .project{width:90%;}
+  nav{flex-direction:column;gap:15px;margin-top:20px;}
+  header h1{font-size:2.2em;}
+  header p{font-size:1em;}
+}
 </style>
+
 <script>
-// Modal logic
+// Order Modal
 function openOrderModal(){document.getElementById('orderModal').style.display='block';}
 function closeOrderModal(){document.getElementById('orderModal').style.display='none';}
-function openProjectModal(title, description){
-  document.getElementById('projectTitle').innerText=title;
-  document.getElementById('projectDescription').innerText=description;
-  document.getElementById('projectModal').style.display='block';
+
+// Project Modal (Image only)
+function openProjectImageModal(imgSrc){
+  document.getElementById('projectImageModalContent').src = imgSrc;
+  document.getElementById('projectImageModal').style.display = 'block';
 }
-function closeProjectModal(){document.getElementById('projectModal').style.display='none';}
+function closeProjectImageModal(){document.getElementById('projectImageModal').style.display='none';}
+
 window.onclick=function(event){
   if(event.target==document.getElementById('orderModal')) closeOrderModal();
-  if(event.target==document.getElementById('projectModal')) closeProjectModal();
+  if(event.target==document.getElementById('projectImageModal')) closeProjectImageModal();
 }
 
 // Submit order to WhatsApp
@@ -143,14 +162,28 @@ function submitOrder(){
 <section id="projects" class="fade-in-delay2">
 <h2><i class="fas fa-project-diagram"></i> Projects & Marketing Material</h2>
 <div class="projects-container">
-<div class="project" onclick="openProjectModal('Concept House 🏡','This is a concept drawing of a house in architectural design form. ✏️📐')">
+
+<div class="project">
 <img src="logo-images/img1.jpg" alt="Concept House">
-<div class="overlay">Concept House 🏡 Click for info</div>
+<button onclick="openProjectImageModal('logo-images/img1.jpg')">View Project</button>
 </div>
-<div class="project" onclick="openProjectModal('Upcoming Structural Services 🏗️','Upcoming structural engineering services in development. 🔧📊')">
+
+<div class="project">
 <img src="logo-images/img2.jpg" alt="Structural Services">
-<div class="overlay">Upcoming Structural Services 🏗️ Click for info</div>
+<button onclick="openProjectImageModal('logo-images/img2.jpg')">View Project</button>
 </div>
+
+<script>
+for(let i=3;i<=13;i++){
+  document.write(`
+  <div class="project">
+    <img src="logo-images/img${i}.jpg" alt="Design ${i}">
+    <button onclick="openProjectImageModal('logo-images/img${i}.jpg')">View Project</button>
+  </div>
+  `);
+}
+</script>
+
 </div>
 </section>
 
@@ -175,4 +208,23 @@ function submitOrder(){
 <span class="close" onclick="closeOrderModal()">&times;</span>
 <h2>Place Your Order 📝</h2>
 <input type="text" id="orderName" placeholder="Full Name 👤" required>
-<input type="text" id="orderCompany" placeholder
+<input type="text" id="orderCompany" placeholder="Company Name 🏢">
+<input type="text" id="orderPhone" placeholder="Phone Number 📞" required>
+<input type="text" id="orderWhatsapp" placeholder="WhatsApp Number 📲">
+<input type="email" id="orderEmail" placeholder="Email ✉️">
+<input type="text" id="orderAddress" placeholder="Address 🏠">
+<textarea id="orderDetails" rows="4" placeholder="Order Details 📝" required></textarea>
+<button onclick="submitOrder()">Send Order via WhatsApp</button>
+</div>
+</div>
+
+<!-- Project Image Modal -->
+<div id="projectImageModal" class="modal">
+<div class="modal-content" style="max-width:90%;padding:10px;">
+<span class="close" onclick="closeProjectImageModal()">&times;</span>
+<img id="projectImageModalContent" src="" alt="Project Full Image">
+</div>
+</div>
+
+</body>
+</html>
